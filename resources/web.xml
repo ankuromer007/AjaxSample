@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<web-app>
+
+	<welcom-files>
+		<welcome-file>index</welcome-file>
+	</welcom-files>
+
+    <servlet>
+        <servlet-name>CityServlet</servlet-name>
+        <servlet-class>com.neevtech.ajax.web.CityServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CityServlet</servlet-name>
+        <url-pattern>/cityList</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ShowList</servlet-name>
+        <servlet-class>com.neevtech.ajax.web.ShowList</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShowList</servlet-name>
+        <url-pattern>/showItems</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>index</servlet-name>
+		<jsp-file>/index.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>index</servlet-name>
+		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+
+</web-app>

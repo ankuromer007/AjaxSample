@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+<project name="AjaxSample" default="deploy.tomcat" basedir=".">
+
+	<property environment="env" />
+	<property name="project-name" value="AjaxSample" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="resources.dir" value="${basedir}/resources" />
+	<property name="build.classes.dir" value="${basedir}/classes" />
+	<property name="dist.dir" value="${basedir}/dist" />
+	
+	<property name="tomcat.home" value="${env.TOMCAT_HOME}" />
+	<property name="tomcat.deploy.dir" value="${tomcat.home}/webapps" />
+
+	<!-- =================================================================== -->
+	<!-- Build classpath -->
+	<!-- =================================================================== -->
+
+	<path id="classpath">
+		<fileset dir="${tomcat.home}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement path="${build.classes.dir}" />
+	</path>
+	
+	<!-- =================================================================== -->
+	<!-- Prepares the build directory                                        -->
+	<!-- =================================================================== -->
+
+	<target name="prepare">
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Compiles the source code                                            -->
+	<!-- =================================================================== -->
+
+	<target name="compile" depends="prepare">
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<!-- =================================================================== -->
+	<!-- Build war -->
+	<!-- =================================================================== -->
+
+	<target name="build-war" depends="compile">
+		<war destfile="${dist.dir}/${project-name}.war" webxml="${resources.dir}/web.xml">
+			<zipfileset dir="${basedir}/web" prefix="web" />
+			<fileset file="index.jsp" />
+			<classes dir="${build.classes.dir}">
+				<include name="com/neevtech/ajax/web/**" />
+			</classes>
+		</war>
+	</target>
+	
+	<!-- =================================================================== -->
+	<!-- Cleans up generated stuff                                           -->
+	<!-- =================================================================== -->
+
+	<target name="clean">
+		<delete dir="${build.classes.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- run this target if you want to deploy project to tomcat -->
+	<!-- =================================================================== -->
+
+	<target name="deploy.tomcat" depends="build-war">
+		<!--copy .war to Tomcat deployment directory-->
+		<copy file="${dist.dir}/${project-name}.war" todir="${tomcat.deploy.dir}" />
+		
+		<echo message="start server if its not running, using command ${tomcat.home}/bin/startup.sh" />
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- run this target if you want to undeploy project from tomcat -->
+	<!-- =================================================================== -->
+
+	<target name="undeploy.tomcat">
+		<!--delete .war file from Tomcat deployment directory-->
+		<delete file="${tomcat.deploy.dir}/${project-name}.war" />
+		<delete file="${tomcat.deploy.dir}/${project-name}" />
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- run this target if you want to redeploy project to tomcat -->
+	<!-- =================================================================== -->
+
+	<target name="redeploy.tomcat" depends=" clean, undeploy.tomcat, deploy.tomcat">
+		<!--delete .war file from Tomcat deployment directory, compile and deploy again-->
+	</target>
+
+</project>
