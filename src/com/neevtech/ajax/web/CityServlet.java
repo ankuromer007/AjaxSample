@@ -18,8 +18,6 @@ public class CityServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws IOException{
 		
-		System.out.println("Hello............!");
-		
 		String state = req.getParameter("stateValue");
 		String json = "[";
 		

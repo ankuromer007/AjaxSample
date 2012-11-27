@@ -73,7 +73,8 @@ function show_items() {
 					},
 					age: {
 						required: true,
-						number: true
+						number: true,
+						maxlength: 3
 					},
 					email: {
 						required: true,
@@ -92,7 +93,8 @@ function show_items() {
 					},
 					age: {
 						required: "Please enter your age",
-						number: "Enter numbers only"
+						number: "Enter numbers only",
+						maxlength: "Age can't be more than 3 digit"
 					},
 					email: "Please enter a valid email address",
 					item: {
